@@ -8,8 +8,10 @@ func main() {
 	var fileName string
 
 	fmt.Println("What is the file name?")
-	fmt.Scan(&fileName)
+	_, err := fmt.Scan(&fileName)
+	check(err)
 	//fmt.Printf("%s", fileName)
+
 }
 
 func countWords() {
@@ -18,4 +20,10 @@ func countWords() {
 
 func reportResults() {
 
+}
+
+func check(e error) {
+	if e != nil {
+		panic(e)
+	}
 }
