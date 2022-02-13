@@ -31,9 +31,17 @@ func main() {
 	countWords(slices)
 }
 
-func countWords([]string) (map[string]int, error) {
-	wordCount := make(map[string]int)
+func countWords(slices []string) map[string]int {
+	wordCountMap := make(map[string]int)
 
+	for _, word := range slices {
+		if _, ok := wordCountMap[word]; ok {
+			wordCountMap[word] += 1
+		} else {
+			wordCountMap[word] = 1
+		}
+	}
+	return wordCountMap
 }
 
 func reportResults() {
