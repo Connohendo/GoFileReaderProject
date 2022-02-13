@@ -1,9 +1,12 @@
+// Connor Henderson
+
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"os"
+	"regexp"
+	"strings"
 )
 
 func main() {
@@ -12,22 +15,24 @@ func main() {
 	fmt.Println("What is the file name?")
 	_, err := fmt.Scan(&fileName)
 	check(err)
-	//fmt.Printf("%s", fileName)
 
-	dat, err := os.Open(fileName)
+	dat, err := os.ReadFile(fileName)
 	check(err)
 
-	defer dat.Close()
+	processedString, err := removePunc(string(dat))
+	check(err)
 
-	scanner := bufio.NewScanner(dat)
+	slices := strings.Split(processedString, " ")
 
-	for scanner.Scan() {
-		fmt.Printf("line: %s \n", scanner.Text())
-	}
+	//for _, slice := range slices {
+	//	fmt.Print(slice)
+	//}
 
+	countWords(slices)
 }
 
-func countWords() {
+func countWords([]string) (map[string]int, error) {
+	wordCount := make(map[string]int)
 
 }
 
@@ -39,4 +44,15 @@ func check(e error) {
 	if e != nil {
 		panic(e)
 	}
+}
+
+func removePunc(unprocessedString string) (string, error) {
+	reg, err := regexp.Compile("[^a-zA-Z0-9]+")
+	if err != nil {
+		return "", err
+	}
+
+	processedString := reg.ReplaceAllString(unprocessedString, "")
+
+	return processedString, err
 }
