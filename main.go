@@ -22,30 +22,40 @@ func main() {
 	processedString, err := removePunc(string(dat))
 	check(err)
 
-	slices := strings.Split(processedString, " ")
+	slices := strings.Split(string(processedString), " ")
+
+	//slices := regexp.MustCompile("[-,' '\n]").Split(string(dat), -1)
 
 	//for _, slice := range slices {
 	//	fmt.Print(slice)
 	//}
 
-	countWords(slices)
+	wordCountMap, err := countWords(slices)
+	check(err)
+	reportResults(wordCountMap)
 }
 
-func countWords(slices []string) map[string]int {
+func countWords(slices []string) (map[string]int, error) {
 	wordCountMap := make(map[string]int)
 
 	for _, word := range slices {
+		//word, err := removePunc(word)
+		//if err != nil {
+		//	return nil, err
+		//}
 		if _, ok := wordCountMap[word]; ok {
 			wordCountMap[word] += 1
 		} else {
 			wordCountMap[word] = 1
 		}
 	}
-	return wordCountMap
+	return wordCountMap, nil
 }
 
-func reportResults() {
-
+func reportResults(data map[string]int) {
+	for k, v := range data {
+		fmt.Println(k, "value is ", v)
+	}
 }
 
 func check(e error) {
@@ -60,7 +70,7 @@ func removePunc(unprocessedString string) (string, error) {
 		return "", err
 	}
 
-	processedString := reg.ReplaceAllString(unprocessedString, "")
+	processedString := reg.ReplaceAllString(unprocessedString, " ")
 
 	return processedString, err
 }
