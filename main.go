@@ -24,12 +24,6 @@ func main() {
 
 	slices := strings.Split(string(processedString), " ")
 
-	//slices := regexp.MustCompile("[-,' '\n]").Split(string(dat), -1)
-
-	//for _, slice := range slices {
-	//	fmt.Print(slice)
-	//}
-
 	wordCountMap, err := countWords(slices)
 	check(err)
 	reportResults(wordCountMap)
@@ -39,10 +33,6 @@ func countWords(slices []string) (map[string]int, error) {
 	wordCountMap := make(map[string]int)
 
 	for _, word := range slices {
-		//word, err := removePunc(word)
-		//if err != nil {
-		//	return nil, err
-		//}
 		if _, ok := wordCountMap[word]; ok {
 			wordCountMap[word] += 1
 		} else {
